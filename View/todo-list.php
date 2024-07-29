@@ -1,20 +1,37 @@
 <?php
 
 declare(strict_types=1);
-//require "src/Task.php";
-$task     = new Task(); 
+//require "src/task.php";
+$task     = new Task();
 $todoList = $task->getAll();
 ?>
 
 <div class="list-group list-group-flush">
-    <?php
-    foreach ($todoList as $task) {
-        echo "<div class='d-flex list-group-item'>";
-        echo "    <a href='?$action={$task['id']}' class='w-100 text-decoration-none text-dark'>";
-        echo "        <input class='form-check-input me-1' type='checkbox' id='task-{$task['id']}' $checked>";
-        echo "        <label class='form-check-label $strike' for='task-{$task['id']}'>{$task['text']}</label>";
-        echo "    </a>";
-        echo "    <a href='?delete={$task['id']}' type='button' class='p-2'><i class='fa-solid fa-trash text-danger'></i></a>";
-        echo "</div>";
-    } ?>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Text</th>
+                <th>Created At</th>
+                <th>User ID</th>
+                <th>Delete</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($todoList as $task) : ?>
+                <tr>
+                    <td>
+                        <ul>
+                            <li></li>
+                        </ul>
+                    </td>
+                    <td><?php echo $task['text']; ?></td>
+                    <td><?php echo $task['created_at']; ?></td>
+                    <td><?php echo $task['userId']; ?></td>
+                    <td><?php echo "<a href='?delete={$task['id']}' type='button' class='p-2'><i class='fa-solid fa-trash text-danger'></i></a>"; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 </div>
