@@ -58,7 +58,7 @@ class Bot
 
     public function hendleAddCommand(int $chatId): void
     {
-        $message = "Please, enter a task.";
+        $message = "Please, enter a note.";
 
         $this->sendMessage($chatId, $message);
     }
@@ -81,7 +81,7 @@ class Bot
         $this->sendMessage($chatId, $message, $keyboard);
     }
 
-    public function showAllTasks(int $chatId, int $messageId = null, string $act = null): void
+    public function showAllNotes(int $chatId, int $messageId = null, string $act = null): void
     {
         $tasksList = $this->note->getOneUserId($chatId);
         $keyboard = ['inline_keyboard'=>[]];
@@ -116,5 +116,35 @@ class Bot
 
             $this->sendMessage($chatId, $message, $keyboard);
         }
+    }
+
+    public function showNote(int $chatId, int $noteId, int $messageId): void
+    {
+        $curent_task = $this->note->getId($noteId);
+
+        $message = "Task # \n\n" . $curent_task[0]['text'];
+
+        $keyboard = json_encode([
+            'inline_keyboard'=>[
+                [
+                    ['text' => "📝 Edit", 'callback_data' => 'edit'],
+                    ['text' => "🗑 Delete", 'callback_data' => 'delete'],
+                ],
+                [
+                    ['text' => "⬅️ Go Back", 'callback_data' => 'back'],
+                ]
+            ]
+        ]);
+
+        $this->editMessageText($chatId, $messageId, $message, $keyboard);
+    }
+
+    public function editTask(int $chatId, int $noteId, string $text): void
+    {
+        $this->note->updateNote($noteId, $text);
+
+        $message = "The Note successfully updated.\n\n";
+
+        $this->showAllNotes($chatId, messageId: null, act: $message);
     }
 }

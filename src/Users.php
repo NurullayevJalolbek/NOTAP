@@ -37,4 +37,13 @@ class Users
     {
         return $this->pdo->query("SELECT * FROM users WHERE user_id={$chat_id}")->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function setNoteId(int $chat_id, int $note_id): bool
+    {
+        $user = $this->pdo->prepare("UPDATE users SET note_id = :note_id WHERE user_id = :user_id");
+        $user->bindParam(':user_id', $chat_id);
+        $user->bindParam(':note_id', $note_id);
+
+        return $user->execute();
+    }
 }
