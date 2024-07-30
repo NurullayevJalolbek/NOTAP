@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-//require "src/task.php";
+
 $task     = new Note();
 $todoList = $task->getAll();
 ?>
