@@ -15,7 +15,7 @@ class Router
     {
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $path = explode('/', $uri);
-        return array_search('api', $path);
+        return array_search('routes', $path);
     }
 
     public function getResourceId(): float|false|int|string
@@ -43,4 +43,20 @@ class Router
     {
         return $this->updates;
     }
+
+    public function get($path, $callback): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] === "GET" && $_SERVER['REQUEST_URI'] === $path) {
+            $callback();
+        }
+    }
+
+    public function post($path, $callback): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['REQUEST_URI'] === $path) {
+            // echo $_SERVER['REQUEST_URI'];
+            $callback();
+        }
+    }
+
 }

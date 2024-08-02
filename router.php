@@ -7,7 +7,7 @@ $update = json_decode(file_get_contents('php://input'));
 $router = new Router();
 
 if ($router->isApiCall()) {
-    require 'api/api.php';
+    require 'routes/api.php';
     return;
 }
 
@@ -16,4 +16,4 @@ if ($router->isTelegramUpdate()) {
     return;
 }
 
-require 'web/web.php';
+require 'routes/web.php';

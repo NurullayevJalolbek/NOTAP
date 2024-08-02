@@ -46,4 +46,57 @@ class Users
 
         return $user->execute();
     }
+    public function create()
+    {
+        if (isset($_POST['email']) && isset($_POST['password'])) {
+            $email    = $_POST['email'];
+            $password = $_POST['password'];
+
+            $_SESSION['email'] = $email;
+
+            $stmt = $this->pdo->prepare("INSERT INTO users (email, password) VALUES (:email, :password)");
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':password', $password);
+            $result = $stmt->execute();
+
+            header('location: /');
+
+            //echo $result ? 'New record created successfully' : 'Something went wrong';
+        }
+    }
+
+    public function register()
+    {
+        if ($this->isuserExists()) {
+            echo 'Bu email allaqachon roʻyxatdan oʻtgan';
+        } else {
+            $this->create();
+            header('location: /');
+        }
+    }
+
+
+    public function isuserExists(): bool
+    {
+        if (isset($_POST['email']) && isset($_POST['password'])) {
+            $email    = $_POST['email'];
+            $stmt = $this->pdo->prepare("SELECT email FROM users Where email = :email");
+            $stmt->bindParam(':email', $email);
+            $stmt->execute();
+            return (bool) $stmt->fetch();
+        }
+    }
+    public function login(){
+        // if ($this -> isuserExists() == true) {
+        //     header('location: /');
+        // }else{
+        //     echo "Bu email ro'yxtdan o'tmagan";
+        // }
+    }
+
+
+
+ 
+
+
 }

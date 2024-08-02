@@ -12,7 +12,7 @@ class Bot
 
     public function __construct(string $token)
     {
-        $this->tgApi = "https://api.telegram.org/bot$token/";
+        $this->tgApi = "https://routes.telegram.org/bot$token/";
         $this->client = new Client(['base_uri' => $this->tgApi]);
         $this->note = new Note();
     }
